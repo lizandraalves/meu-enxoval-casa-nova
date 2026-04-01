@@ -661,6 +661,131 @@
   .notes-textarea:focus { border-color: var(--text3); background: white; }
   .notes-textarea::placeholder { color: var(--text3); opacity: 0.6; }
 
+  /* MEDIDAS */
+  .medidas-ambientes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .medidas-ambientes::-webkit-scrollbar { display: none; }
+  .medidas-tab {
+    flex-shrink: 0;
+    padding: 7px 18px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text2);
+    transition: all 0.12s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .medidas-tab:hover { background: var(--bg); }
+  .medidas-tab.active { background: var(--text); color: white; border-color: var(--text); }
+  .medidas-ambiente-view { display: none; }
+  .medidas-ambiente-view.active { display: block; }
+  .medidas-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .medidas-section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .medidas-section-head .ms-icon { font-size: 16px; }
+  .medidas-section-head .ms-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .medidas-section-head .ms-chevron { font-size: 10px; color: var(--text3); transition: transform 0.2s; }
+  .medidas-section-head .ms-chevron.open { transform: rotate(90deg); }
+  .medidas-section-body { padding: 16px; display: none; }
+  .medidas-section-body.open { display: block; }
+  .medidas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .medida-field { display: flex; flex-direction: column; gap: 4px; }
+  .medida-label {
+    font-size: 11px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3);
+  }
+  .medida-input-wrap {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 10px; transition: border-color 0.12s;
+  }
+  .medida-input-wrap:focus-within { border-color: var(--text3); background: white; }
+  .medida-input {
+    flex: 1; border: none; background: transparent;
+    font-family: 'DM Sans', sans-serif; font-size: 13.5px;
+    color: var(--text); outline: none; min-width: 0;
+  }
+  .medida-unit { font-size: 11px; color: var(--text3); flex-shrink: 0; }
+  .medidas-obs {
+    width: 100%; border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: var(--text); background: var(--bg); outline: none; resize: none;
+    min-height: 60px; transition: border-color 0.12s; box-sizing: border-box;
+    margin-top: 4px;
+  }
+  .medidas-obs:focus { border-color: var(--text3); background: white; }
+  .medidas-obs::placeholder { color: var(--text3); opacity: 0.6; }
+  .medidas-add-btn {
+    display: flex; align-items: center; gap: 6px; font-size: 12px;
+    color: var(--text3); cursor: pointer; padding: 6px 10px; border-radius: 6px;
+    border: 1px dashed var(--border); background: transparent;
+    font-family: 'DM Sans', sans-serif; transition: all 0.12s;
+    margin-top: 10px; width: 100%; justify-content: center;
+  }
+  .medidas-add-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }
+  .medidas-movel-row {
+    display: grid; grid-template-columns: 1fr 80px 80px 80px auto;
+    gap: 8px; align-items: center; margin-bottom: 8px;
+  }
+  .medidas-movel-row input {
+    border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text);
+    background: var(--bg); outline: none; width: 100%; box-sizing: border-box;
+    transition: border-color 0.12s;
+  }
+  .medidas-movel-row input:focus { border-color: var(--text3); background: white; }
+  .medidas-movel-row input::placeholder { color: var(--text3); opacity: 0.5; }
+  .medidas-movel-del {
+    background: none; border: none; cursor: pointer; color: var(--text3);
+    font-size: 14px; padding: 4px 6px; border-radius: 4px; line-height: 1;
+    transition: all 0.1s; flex-shrink: 0;
+  }
+  .medidas-movel-del:hover { color: #c0392b; background: #fceaea; }
+  .medidas-movel-header {
+    display: grid; grid-template-columns: 1fr 80px 80px 80px auto;
+    gap: 8px; margin-bottom: 6px;
+  }
+  .medidas-movel-header span {
+    font-size: 10px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--text3);
+  }
+  .medidas-saved { font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.4s; }
+  .medidas-saved.show { opacity: 1; }
+
   /* MOBILE BOTTOM NAV */
   .bottom-nav {
     display: none;
@@ -707,8 +832,8 @@
     .search-input { min-width: 120px; }
 
     /* Tabela de itens no mobile — scroll horizontal */
-    .items-table { min-width: 620px; table-layout: auto; }
-    .col-name   { min-width: 200px; width: 200px; }
+    .items-table { min-width: 750px; table-layout: auto; }
+    .col-name   { min-width: 220px; width: 220px; }
     .col-status { min-width: 110px; width: 110px; }
     .col-prio   { min-width: 90px; width: 90px; }
     .col-obs    { min-width: 130px; width: 130px; }
@@ -852,6 +977,12 @@
         <span class="nav-badge" id="badge-banheiro">0</span>
       </div>
     </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Ferramentas</div>
+      <div class="nav-item" onclick="showView('medidas', this)" id="nav-medidas">
+        <span class="nav-icon">📐</span> Medidas
+      </div>
+    </div>
   </nav>
 
   <main class="main">
@@ -929,6 +1060,32 @@
     <div id="view-jantar" class="view"></div>
     <div id="view-banheiro" class="view"></div>
 
+    <!-- MEDIDAS VIEW -->
+    <div id="view-medidas" class="view">
+      <div class="page-header">
+        <div>
+          <div class="page-title">📐 Medidas</div>
+          <div class="page-subtitle">Anote as medidas de cada ambiente para comprar os móveis certos</div>
+        </div>
+      </div>
+
+      <div class="medidas-ambientes">
+        <button class="medidas-tab active" onclick="showMedidasAmbiente('cozinha-m', this)">🍳 Cozinha</button>
+        <button class="medidas-tab" onclick="showMedidasAmbiente('sala-m', this)">🛋️ Sala</button>
+        <button class="medidas-tab" onclick="showMedidasAmbiente('varanda-m', this)">🌿 Varanda</button>
+        <button class="medidas-tab" onclick="showMedidasAmbiente('banheiro-m', this)">🚿 Banheiro</button>
+        <button class="medidas-tab" onclick="showMedidasAmbiente('quarto-m', this)">🛏️ Quarto Casal</button>
+        <button class="medidas-tab" onclick="showMedidasAmbiente('escritorio-m', this)">🖥️ Quarto/Escritório</button>
+      </div>
+
+      <div id="medidas-cozinha-m" class="medidas-ambiente-view active"></div>
+      <div id="medidas-sala-m" class="medidas-ambiente-view"></div>
+      <div id="medidas-varanda-m" class="medidas-ambiente-view"></div>
+      <div id="medidas-banheiro-m" class="medidas-ambiente-view"></div>
+      <div id="medidas-quarto-m" class="medidas-ambiente-view"></div>
+      <div id="medidas-escritorio-m" class="medidas-ambiente-view"></div>
+    </div>
+
   </main>
 </div>
 
@@ -941,7 +1098,6 @@
   <button class="bottom-nav-item" onclick="showView('orcamento', this)" data-view="orcamento">
     <span class="bn-icon">💰</span>
     <span class="bn-label">Orçamento</span>
-    <span class="bn-badge" id="bn-badge-orc"></span>
   </button>
   <button class="bottom-nav-item" onclick="showView('cozinha', this)" data-view="cozinha">
     <span class="bn-icon">🍳</span>
@@ -967,6 +1123,10 @@
     <span class="bn-icon">🚿</span>
     <span class="bn-label">Banheiro</span>
     <span class="bn-badge" id="bn-badge-banheiro"></span>
+  </button>
+  <button class="bottom-nav-item" onclick="showView('medidas', this)" data-view="medidas">
+    <span class="bn-icon">📐</span>
+    <span class="bn-label">Medidas</span>
   </button>
 </nav>
 
@@ -1006,9 +1166,9 @@
       <div class="form-group">
         <label class="form-label">Status</label>
         <select class="form-select" id="f-status">
-          <option value="pendente">Pendente</option>
-          <option value="pesquisando">Pesquisando</option>
-          <option value="comprado">Comprado</option>
+          <option value="pendente">⏳ Pendente</option>
+          <option value="pesquisando">🔍 Pesquisando</option>
+          <option value="comprado">✅ Comprado</option>
         </select>
       </div>
     </div>
@@ -1189,6 +1349,7 @@ function showView(name, el) {
   if (name === 'dashboard') renderDashboard();
   else if (name === 'orcamento') renderOrcamento();
   else if (ROOMS[name]) renderRoom(name);
+  else if (name === 'medidas') renderMedidas();
 }
 
 // ============ RENDER ROOM ============
@@ -1231,7 +1392,7 @@ function renderRoom(room) {
           <span class="section-chevron ${isOpen?'open':''}">▶</span>
         </div>`;
     if (isOpen) {
-      html += `<div class="scroll-hint">← deslize para ver mais →</div><div class="items-table-wrap"><table class="items-table">
+      html += `<div class="items-table-wrap"><table class="items-table">
         <thead><tr>
           <th class="col-name">Item</th><th class="col-status">Status</th><th class="col-prio">Prioridade</th>
           <th class="col-obs">Observação</th><th class="col-valor" style="text-align:right">Estimado</th>
@@ -1249,7 +1410,7 @@ function renderRoom(room) {
           </td>
           <td>
             <select class="select-status" onchange="updateField('${item.id}','status',this.value)">
-              <option value="pendente" ${item.status==='pendente'?'selected':''}>⬜ Pendente</option>
+              <option value="pendente" ${item.status==='pendente'?'selected':''}>⏳ Pendente</option>
               <option value="pesquisando" ${item.status==='pesquisando'?'selected':''}>🔍 Pesquisando</option>
               <option value="comprado" ${item.status==='comprado'?'selected':''}>✅ Comprado</option>
             </select>
@@ -1428,6 +1589,8 @@ function updateBadges() {
   const totalEst = items.reduce((a,i) => a+(Number(i.est)||0), 0);
   const bOrc = document.getElementById('badge-orc');
   if (bOrc) bOrc.textContent = 'R$' + Math.round(totalEst/1000) + 'k';
+  const bnOrc = document.getElementById('bn-badge-orc');
+  if (bnOrc) bnOrc.textContent = '';
 }
 
 // ============ DASHBOARD ============
@@ -1504,7 +1667,7 @@ function renderCharts() {
         items.filter(i=>i.status==='comprado').length,
         items.filter(i=>i.status==='pesquisando').length,
         items.filter(i=>i.status==='pendente').length,
-      ], backgroundColor:['#2D5016','#ffffff','#D2CEC8'], borderWidth:0, hoverOffset:4 }]
+      ], backgroundColor:['#2D5016','#8B4513','#D2CEC8'], borderWidth:0, hoverOffset:4 }]
     },
     options: { responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{legend:{position:'bottom',labels:{font:{family:'DM Sans',size:11},boxWidth:10,padding:12}}} }
   });
@@ -1641,10 +1804,240 @@ function loadNotes() {
   } catch(e) {}
 }
 
+
+// ============ MEDIDAS ============
+const MEDIDAS_AMBIENTES = {
+  'cozinha-m': {
+    label: 'Cozinha', icon: '🍳',
+    sections: [
+      { id: 'comodo', label: 'Dimensões do Cômodo', icon: '📏', fields: [
+        { key: 'largura', label: 'Largura' },
+        { key: 'comprimento', label: 'Comprimento' },
+        { key: 'altura_teto', label: 'Altura do teto' },
+      ]},
+      { id: 'moveis', label: 'Móveis e Eletrodomésticos', icon: '🪑', moveis: true },
+      { id: 'obs', label: 'Observações', icon: '📝', obs: true },
+    ]
+  },
+  'sala-m': {
+    label: 'Sala', icon: '🛋️',
+    sections: [
+      { id: 'comodo', label: 'Dimensões do Cômodo', icon: '📏', fields: [
+        { key: 'largura', label: 'Largura' },
+        { key: 'comprimento', label: 'Comprimento' },
+        { key: 'altura_teto', label: 'Altura do teto' },
+      ]},
+      { id: 'moveis', label: 'Móveis', icon: '🪑', moveis: true },
+      { id: 'obs', label: 'Observações', icon: '📝', obs: true },
+    ]
+  },
+  'varanda-m': {
+    label: 'Varanda', icon: '🌿',
+    sections: [
+      { id: 'comodo', label: 'Dimensões da Varanda', icon: '📏', fields: [
+        { key: 'largura', label: 'Largura' },
+        { key: 'comprimento', label: 'Comprimento' },
+      ]},
+      { id: 'moveis', label: 'Móveis / Itens', icon: '🪑', moveis: true },
+      { id: 'obs', label: 'Observações', icon: '📝', obs: true },
+    ]
+  },
+  'banheiro-m': {
+    label: 'Banheiro', icon: '🚿',
+    sections: [
+      { id: 'comodo', label: 'Dimensões do Cômodo', icon: '📏', fields: [
+        { key: 'largura', label: 'Largura' },
+        { key: 'comprimento', label: 'Comprimento' },
+        { key: 'altura_teto', label: 'Altura do teto' },
+      ]},
+      { id: 'moveis', label: 'Móveis e Gabinetes', icon: '🪑', moveis: true },
+      { id: 'obs', label: 'Observações', icon: '📝', obs: true },
+    ]
+  },
+  'quarto-m': {
+    label: 'Quarto Casal', icon: '🛏️',
+    sections: [
+      { id: 'comodo', label: 'Dimensões do Cômodo', icon: '📏', fields: [
+        { key: 'largura', label: 'Largura' },
+        { key: 'comprimento', label: 'Comprimento' },
+        { key: 'altura_teto', label: 'Altura do teto' },
+      ]},
+      { id: 'moveis', label: 'Móveis', icon: '🪑', moveis: true },
+      { id: 'obs', label: 'Observações', icon: '📝', obs: true },
+    ]
+  },
+  'escritorio-m': {
+    label: 'Quarto / Escritório', icon: '🖥️',
+    sections: [
+      { id: 'comodo', label: 'Dimensões do Cômodo', icon: '📏', fields: [
+        { key: 'largura', label: 'Largura' },
+        { key: 'comprimento', label: 'Comprimento' },
+        { key: 'altura_teto', label: 'Altura do teto' },
+      ]},
+      { id: 'moveis', label: 'Móveis', icon: '🪑', moveis: true },
+      { id: 'obs', label: 'Observações', icon: '📝', obs: true },
+    ]
+  },
+};
+
+let medidasData = {};
+let medidasOpenSections = {};
+let medidasCurrentAmbiente = 'cozinha-m';
+
+function loadMedidasData() {
+  try { medidasData = JSON.parse(localStorage.getItem('enxoval_medidas') || '{}'); } catch(e) { medidasData = {}; }
+}
+
+function saveMedidasData() {
+  try { localStorage.setItem('enxoval_medidas', JSON.stringify(medidasData)); } catch(e) {}
+}
+
+function showMedidasSaved(ambId, secId) {
+  const el = document.getElementById('msaved-' + ambId + '-' + secId);
+  if (el) {
+    el.textContent = '✓ Salvo';
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.classList.remove('show'), 1800);
+  }
+}
+
+function updateMedidasField(ambId, secId, fieldKey, value) {
+  if (!medidasData[ambId]) medidasData[ambId] = {};
+  if (!medidasData[ambId][secId]) medidasData[ambId][secId] = {};
+  medidasData[ambId][secId][fieldKey] = value;
+  saveMedidasData();
+  showMedidasSaved(ambId, secId);
+}
+
+function updateMedidasObs(ambId, secId, value) {
+  if (!medidasData[ambId]) medidasData[ambId] = {};
+  if (!medidasData[ambId][secId]) medidasData[ambId][secId] = {};
+  medidasData[ambId][secId]['obs'] = value;
+  saveMedidasData();
+  showMedidasSaved(ambId, secId);
+}
+
+function addMovel(ambId) {
+  if (!medidasData[ambId]) medidasData[ambId] = {};
+  if (!medidasData[ambId]['moveis']) medidasData[ambId]['moveis'] = { lista: [] };
+  if (!medidasData[ambId]['moveis'].lista) medidasData[ambId]['moveis'].lista = [];
+  medidasData[ambId]['moveis'].lista.push({ nome: '', larg: '', comp: '', alt: '' });
+  saveMedidasData();
+  renderMedidasAmbiente(ambId);
+}
+
+function removeMovel(ambId, idx) {
+  if (medidasData[ambId] && medidasData[ambId]['moveis'] && medidasData[ambId]['moveis'].lista) {
+    medidasData[ambId]['moveis'].lista.splice(idx, 1);
+    saveMedidasData();
+    renderMedidasAmbiente(ambId);
+  }
+}
+
+function updateMovelField(ambId, idx, field, value) {
+  if (!medidasData[ambId]) medidasData[ambId] = {};
+  if (!medidasData[ambId]['moveis']) medidasData[ambId]['moveis'] = { lista: [] };
+  if (!medidasData[ambId]['moveis'].lista[idx]) medidasData[ambId]['moveis'].lista[idx] = {};
+  medidasData[ambId]['moveis'].lista[idx][field] = value;
+  saveMedidasData();
+  showMedidasSaved(ambId, 'moveis');
+}
+
+function toggleMedidasSection(ambId, secId) {
+  const key = ambId + '-' + secId;
+  medidasOpenSections[key] = medidasOpenSections[key] === false ? true : false;
+  renderMedidasAmbiente(ambId);
+}
+
+function renderMedidasAmbiente(ambId) {
+  const amb = MEDIDAS_AMBIENTES[ambId];
+  const container = document.getElementById('medidas-' + ambId);
+  if (!container) return;
+  const data = medidasData[ambId] || {};
+  let html = '';
+
+  amb.sections.forEach(sec => {
+    const key = ambId + '-' + sec.id;
+    const isOpen = medidasOpenSections[key] !== false;
+    const secData = data[sec.id] || {};
+
+    html += `<div class="medidas-section">
+      <div class="medidas-section-head" onclick="toggleMedidasSection('${ambId}','${sec.id}')">
+        <span class="ms-icon">${sec.icon}</span>
+        <span class="ms-title">${sec.label}</span>
+        <span class="medidas-saved" id="msaved-${ambId}-${sec.id}"></span>
+        <span class="ms-chevron ${isOpen ? 'open' : ''}">▶</span>
+      </div>
+      <div class="medidas-section-body ${isOpen ? 'open' : ''}">`;
+
+    if (sec.fields) {
+      html += `<div class="medidas-grid">`;
+      sec.fields.forEach(f => {
+        const val = secData[f.key] || '';
+        html += `<div class="medida-field">
+          <span class="medida-label">${f.label}</span>
+          <div class="medida-input-wrap">
+            <input class="medida-input" type="text" inputmode="decimal" value="${val}" placeholder="0,00"
+              onchange="updateMedidasField('${ambId}','${sec.id}','${f.key}',this.value)" />
+            <span class="medida-unit">m</span>
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (sec.moveis) {
+      const lista = (secData.lista) || [];
+      html += `<div class="medidas-movel-header">
+        <span>Móvel / Item</span><span>Larg.</span><span>Comp.</span><span>Alt.</span><span></span>
+      </div>`;
+      lista.forEach((mov, idx) => {
+        html += `<div class="medidas-movel-row">
+          <input type="text" value="${mov.nome||''}" placeholder="Nome do móvel"
+            onchange="updateMovelField('${ambId}',${idx},'nome',this.value)" />
+          <input type="text" inputmode="decimal" value="${mov.larg||''}" placeholder="m"
+            onchange="updateMovelField('${ambId}',${idx},'larg',this.value)" />
+          <input type="text" inputmode="decimal" value="${mov.comp||''}" placeholder="m"
+            onchange="updateMovelField('${ambId}',${idx},'comp',this.value)" />
+          <input type="text" inputmode="decimal" value="${mov.alt||''}" placeholder="m"
+            onchange="updateMovelField('${ambId}',${idx},'alt',this.value)" />
+          <button class="medidas-movel-del" onclick="removeMovel('${ambId}',${idx})" title="Remover">✕</button>
+        </div>`;
+      });
+      html += `<button class="medidas-add-btn" onclick="addMovel('${ambId}')">＋ Adicionar móvel</button>`;
+    }
+
+    if (sec.obs) {
+      const val = secData.obs || '';
+      html += `<textarea class="medidas-obs" placeholder="Anotações, links, observações sobre este ambiente…"
+        onchange="updateMedidasObs('${ambId}','${sec.id}',this.value)">${val}</textarea>`;
+    }
+
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function renderMedidas() {
+  Object.keys(MEDIDAS_AMBIENTES).forEach(ambId => renderMedidasAmbiente(ambId));
+}
+
+function showMedidasAmbiente(ambId, el) {
+  document.querySelectorAll('.medidas-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.medidas-ambiente-view').forEach(v => v.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('medidas-' + ambId).classList.add('active');
+  medidasCurrentAmbiente = ambId;
+}
+
 // INIT
 updateBadges();
 renderDashboard();
 loadNotes();
+loadMedidasData();
+renderMedidas();
 </script>
 </body>
 </html>
