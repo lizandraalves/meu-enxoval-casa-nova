@@ -417,12 +417,24 @@
     transition: opacity 0.1s;
   }
   .badge:hover { opacity: 0.8; }
-  .badge-essencial { background: var(--essencial-bg); color: var(--essencial); }
-  .badge-recomendado { background: var(--recomendado-bg); color: var(--recomendado); }
-  .badge-opcional { background: var(--opcional-bg); color: var(--opcional); }
   .badge-comprado { background: var(--comprado-bg); color: var(--comprado); }
   .badge-pesquisando { background: var(--pesquisando-bg); color: var(--pesquisando); }
   .badge-pendente { background: var(--pendente-bg); color: var(--pendente); }
+
+  /* PRIORIDADE — bolinha colorida */
+  .prio-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  .prio-dot:hover { transform: scale(1.25); opacity: 0.8; }
+  .prio-dot-essencial   { background: var(--essencial); }
+  .prio-dot-recomendado { background: var(--recomendado); }
+  .prio-dot-opcional    { background: var(--opcional); }
 
   /* SELECT STYLED */
   .select-status {
@@ -565,12 +577,11 @@
   }
   .toast.show { transform: none; opacity: 1; }
 
-  .col-name { width: 32%; }
-  .col-status { width: 14%; }
-  .col-prio { width: 13%; }
-  .col-obs { width: 20%; }
-  .col-valor { width: 12%; text-align: right; }
-  .col-actions { width: 9%; text-align: center; }
+  .col-name { width: 38%; }
+  .col-status { width: 20%; }
+  .col-prio { width: 5%; text-align: center; }
+  .col-valor { width: 14%; text-align: right; }
+  .col-actions { width: 4%; text-align: center; }
 
   .total-row td { font-weight: 500; font-size: 13px; color: var(--text2); padding: 8px 14px; border-top: 2px solid var(--border); background: var(--bg); }
   .total-row td:last-child { text-align: right; font-family: 'Playfair Display', serif; font-size: 15px; color: var(--text); }
@@ -626,7 +637,7 @@
   @media (max-width: 768px) {
     .sidebar { display: none; }
     .charts-grid { grid-template-columns: 1fr; }
-    .col-obs, .col-prio, .col-actions { display: none; }
+    .col-actions { display: none; }
     .view { padding: 1rem; padding-bottom: 90px; }
     header { padding: 0 1rem; }
 
@@ -665,22 +676,24 @@
     .search-input { min-width: 120px; }
 
     /* Tabela de itens compacta no mobile */
+    .items-table { table-layout: fixed; }
     .items-table th { padding: 5px 5px; font-size: 9px; letter-spacing: 0; }
     .items-table td { padding: 7px 5px; }
     .item-name-cell { gap: 5px; }
     .item-check { width: 15px; height: 15px; font-size: 9px; flex-shrink: 0; }
     .item-name-text { font-size: 11.5px; }
     .editable { font-size: 11.5px; padding: 1px 3px; }
-    .editable-price { width: 48px; font-size: 11px; }
-    .price-prefix { font-size: 10px; }
-    .price-wrap { gap: 1px; }
     .badge { padding: 2px 5px; font-size: 10px; }
-    .select-status { font-size: 10.5px; padding: 2px 2px; max-width: 90px; }
+    .select-status { font-size: 11px; padding: 2px 2px; max-width: 100px; }
+    .editable-price { width: 52px; font-size: 11px; }
+    .price-prefix { font-size: 10px; }
+    .items-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .section-name { font-size: 12.5px; }
     .section-head { padding: 8px 10px; }
-    .col-name { width: 40%; }
+    .col-name { width: 42%; }
+    .col-prio { width: 6%; text-align: center; }
     .col-status { width: auto; }
-    .col-valor { width: auto; }
+    .col-valor { width: auto; text-align: right; }
 
     /* Bottom nav */
     .bottom-nav {
@@ -1185,11 +1198,11 @@ function renderRoom(room) {
       html += `<div class="items-table-wrap"><table class="items-table">
         <colgroup>
           <col class="col-name"><col class="col-status"><col class="col-prio">
-          <col class="col-obs"><col class="col-valor"><col class="col-valor"><col class="col-actions">
+          <col class="col-valor"><col class="col-valor"><col class="col-actions">
         </colgroup>
         <thead><tr>
           <th>Item</th><th>Status</th><th>Prioridade</th>
-          <th>Observação</th><th style="text-align:right">Estimado</th>
+          <th style="text-align:right">Estimado</th>
           <th style="text-align:right">Pago</th><th style="text-align:center">Ações</th>
         </tr></thead><tbody>`;
       secItems.forEach(item => {
@@ -1209,11 +1222,8 @@ function renderRoom(room) {
               <option value="comprado" ${item.status==='comprado'?'selected':''}>✅ Comprado</option>
             </select>
           </td>
-          <td>
-            <span class="badge badge-${item.prio}" onclick="cyclePrio('${item.id}')" title="Clique para alterar">${item.prio}</span>
-          </td>
-          <td>
-            <input class="editable" value="${item.obs}" placeholder="—" onchange="updateField('${item.id}','obs',this.value)" />
+          <td style="text-align:center">
+            <span class="prio-dot prio-dot-${item.prio}" onclick="cyclePrio('${item.id}')" title="${item.prio} — clique para alterar"></span>
           </td>
           <td>
             <div class="price-wrap">
@@ -1236,7 +1246,7 @@ function renderRoom(room) {
       const totalEst = secItems.reduce((a,i) => a+(Number(i.est)||0), 0);
       const totalPaid = secItems.reduce((a,i) => a+(Number(i.paid)||0), 0);
       if (secItems.length) {
-        html += `<tr class="total-row"><td colspan="4">Total desta seção</td>
+        html += `<tr class="total-row"><td colspan="3">Total desta seção</td>
           <td style="text-align:right;font-family:'Playfair Display',serif;font-size:14px;">${fmt(totalEst)}</td>
           <td style="text-align:right;font-family:'Playfair Display',serif;font-size:14px;color:var(--accent)">${fmt(totalPaid)}</td>
           <td></td></tr>`;
@@ -1491,7 +1501,7 @@ function renderCharts() {
         pending.filter(i=>i.prio==='essencial').length,
         pending.filter(i=>i.prio==='recomendado').length,
         pending.filter(i=>i.prio==='opcional').length,
-      ], backgroundColor:['#8B2020','#1A4A7A','#888780'], borderWidth:0, hoverOffset:4 }]
+      ], backgroundColor:['#c63b3b','#1A4A7A','#4A4540'], borderWidth:0, hoverOffset:4 }]
     },
     options: { responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{legend:{position:'bottom',labels:{font:{family:'DM Sans',size:11},boxWidth:10,padding:12}}} }
   });
