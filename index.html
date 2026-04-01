@@ -335,7 +335,11 @@
     border: 1px solid var(--border);
     border-top: none;
     border-radius: 0 0 8px 8px;
-    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .items-table {
+    min-width: 480px;
   }
   .items-table th {
     text-align: left;
@@ -548,7 +552,45 @@
   .mini-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 5px; width: 100%; min-width: 80px; }
   .mini-bar-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.5s ease; }
 
-  /* EMPTY STATE */
+  /* Scroll indicator for table on mobile */
+  .items-table-wrap {
+    position: relative;
+  }
+  .items-table-wrap::after {
+    content: '';
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .items-table-wrap {
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .items-table-wrap::-webkit-scrollbar {
+      height: 3px;
+    }
+    .items-table-wrap::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .items-table-wrap::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+  }
+
+  /* Scroll hint badge */
+  .scroll-hint {
+    display: none;
+    font-size: 10px;
+    color: var(--text3);
+    padding: 3px 8px 0;
+    text-align: right;
+    opacity: 0.7;
+    font-style: italic;
+  }
+  @media (max-width: 768px) {
+    .scroll-hint { display: block; }
+  }
   .empty-state { text-align: center; padding: 3rem; color: var(--text3); }
   .empty-state .es-icon { font-size: 36px; margin-bottom: 1rem; }
   .empty-state p { font-size: 14px; }
@@ -1182,7 +1224,7 @@ function renderRoom(room) {
           <span class="section-chevron ${isOpen?'open':''}">▶</span>
         </div>`;
     if (isOpen) {
-      html += `<div class="items-table-wrap"><table class="items-table">
+      html += `<div class="scroll-hint">← deslize para ver mais →</div><div class="items-table-wrap"><table class="items-table">
         <colgroup>
           <col class="col-name"><col class="col-status"><col class="col-prio">
           <col class="col-obs"><col class="col-valor"><col class="col-valor"><col class="col-actions">
