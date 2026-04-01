@@ -359,7 +359,8 @@
   .items-table tr:hover td { background: var(--bg); }
   .items-table tr.row-comprado td { opacity: 0.6; }
 
-  .item-name-cell { display: flex; align-items: center; gap: 10px; }
+  .item-name-cell { display: flex; align-items: center; gap: 10px; width: 100%; overflow: hidden; }
+  .item-name-cell .editable { flex: 1; min-width: 0; }
   .item-check {
     width: 17px; height: 17px;
     border-radius: 4px;
@@ -707,22 +708,25 @@
     .search-input { min-width: 120px; }
 
     /* Tabela de itens compacta no mobile */
-    .items-table th { padding: 5px 5px; font-size: 9px; letter-spacing: 0; }
-    .items-table td { padding: 7px 5px; }
+    .items-table { min-width: unset !important; width: 100%; }
+    .items-table th { padding: 6px 8px; font-size: 9px; letter-spacing: 0; }
+    .items-table td { padding: 8px 8px; }
     .item-name-cell { gap: 5px; }
     .item-check { width: 15px; height: 15px; font-size: 9px; flex-shrink: 0; }
-    .item-name-text { font-size: 11.5px; }
-    .editable { font-size: 11.5px; padding: 1px 3px; }
-    .editable-price { width: 48px; font-size: 11px; }
+    .item-name-text { font-size: 12px; }
+    .editable { font-size: 12px; padding: 1px 3px; }
+    .editable-price { width: 52px; font-size: 11px; }
     .price-prefix { font-size: 10px; }
     .price-wrap { gap: 1px; }
     .badge { padding: 2px 5px; font-size: 10px; }
     .select-status { font-size: 10.5px; padding: 2px 2px; max-width: 90px; }
     .section-name { font-size: 12.5px; }
     .section-head { padding: 8px 10px; }
-    .col-name { width: 40%; }
-    .col-status { width: auto; }
-    .col-valor { width: auto; }
+    /* No mobile só aparecem: Item (50%), Status (30%), Estimado, Pago */
+    .col-name   { width: 50%; }
+    .col-status { width: 30%; }
+    .col-valor  { width: 10%; min-width: 52px; }
+    .scroll-hint { display: none !important; }
 
     /* Bottom nav */
     .bottom-nav {
