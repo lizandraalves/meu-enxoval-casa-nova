@@ -723,6 +723,7 @@
     .section-name { font-size: 12.5px; }
     .section-head { padding: 8px 10px; }
     /* No mobile só aparecem: Item (50%), Status (30%), Estimado, Pago */
+    .items-table { table-layout: fixed; }
     .col-name   { width: 50%; }
     .col-status { width: 30%; }
     .col-valor  { width: 10%; min-width: 52px; }
@@ -1229,14 +1230,10 @@ function renderRoom(room) {
         </div>`;
     if (isOpen) {
       html += `<div class="scroll-hint">← deslize para ver mais →</div><div class="items-table-wrap"><table class="items-table">
-        <colgroup>
-          <col class="col-name"><col class="col-status"><col class="col-prio">
-          <col class="col-obs"><col class="col-valor"><col class="col-valor"><col class="col-actions">
-        </colgroup>
         <thead><tr>
-          <th>Item</th><th>Status</th><th>Prioridade</th>
-          <th>Observação</th><th style="text-align:right">Estimado</th>
-          <th style="text-align:right">Pago</th><th style="text-align:center">Ações</th>
+          <th class="col-name">Item</th><th class="col-status">Status</th><th class="col-prio">Prioridade</th>
+          <th class="col-obs">Observação</th><th class="col-valor" style="text-align:right">Estimado</th>
+          <th class="col-valor" style="text-align:right">Pago</th><th class="col-actions" style="text-align:center">Ações</th>
         </tr></thead><tbody>`;
       secItems.forEach(item => {
         html += `<tr class="row-${item.status}" id="row-${item.id}">
