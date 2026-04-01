@@ -669,7 +669,6 @@
   @media (max-width: 768px) {
     .sidebar { display: none; }
     .charts-grid { grid-template-columns: 1fr; }
-    .col-obs, .col-prio, .col-actions { display: none; }
     .view { padding: 1rem; padding-bottom: 90px; }
     header { padding: 0 1rem; }
 
@@ -707,9 +706,15 @@
     .filter-btn { padding: 5px 10px; font-size: 11px; }
     .search-input { min-width: 120px; }
 
-    /* Tabela de itens compacta no mobile */
-    .items-table { min-width: unset !important; width: 100%; }
-    .items-table th { padding: 6px 8px; font-size: 9px; letter-spacing: 0; }
+    /* Tabela de itens no mobile — scroll horizontal */
+    .items-table { min-width: 620px; table-layout: auto; }
+    .col-name   { min-width: 200px; width: 200px; }
+    .col-status { min-width: 110px; width: 110px; }
+    .col-prio   { min-width: 90px; width: 90px; }
+    .col-obs    { min-width: 130px; width: 130px; }
+    .col-valor  { min-width: 70px; width: 70px; }
+    .col-actions{ min-width: 40px; width: 40px; }
+    .items-table th { padding: 6px 8px; font-size: 9px; letter-spacing: 0; white-space: nowrap; }
     .items-table td { padding: 8px 8px; }
     .item-name-cell { gap: 5px; }
     .item-check { width: 15px; height: 15px; font-size: 9px; flex-shrink: 0; }
@@ -719,15 +724,12 @@
     .price-prefix { font-size: 10px; }
     .price-wrap { gap: 1px; }
     .badge { padding: 2px 5px; font-size: 10px; }
-    .select-status { font-size: 10.5px; padding: 2px 2px; max-width: 90px; }
+    .select-status { font-size: 10.5px; padding: 2px 2px; }
     .section-name { font-size: 12.5px; }
     .section-head { padding: 8px 10px; }
-    /* No mobile só aparecem: Item (50%), Status (30%), Estimado, Pago */
-    .items-table { table-layout: fixed; }
-    .col-name   { width: 50%; }
-    .col-status { width: 30%; }
-    .col-valor  { width: 10%; min-width: 52px; }
-    .scroll-hint { display: none !important; }
+    /* Mostrar todas as colunas com scroll — remover ocultação */
+    .col-obs, .col-prio, .col-actions { display: table-cell; }
+    .scroll-hint { display: block !important; }
 
     /* Bottom nav */
     .bottom-nav {
