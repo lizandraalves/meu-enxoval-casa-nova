@@ -575,6 +575,49 @@
   .total-row td { font-weight: 500; font-size: 13px; color: var(--text2); padding: 8px 14px; border-top: 2px solid var(--border); background: var(--bg); }
   .total-row td:last-child { text-align: right; font-family: 'Playfair Display', serif; font-size: 15px; color: var(--text); }
 
+  /* NOTES CARD */
+  .notes-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-top: 0;
+  }
+  .notes-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+  .notes-saved {
+    font-size: 11px;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.4s;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .notes-saved.show { opacity: 1; }
+  .notes-textarea {
+    width: 100%;
+    min-height: 140px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    line-height: 1.6;
+    transition: border-color 0.15s;
+  }
+  .notes-textarea:focus { border-color: var(--text3); background: white; }
+  .notes-textarea::placeholder { color: var(--text3); opacity: 0.6; }
+
   /* MOBILE BOTTOM NAV */
   .bottom-nav {
     display: none;
@@ -622,18 +665,22 @@
     .search-input { min-width: 120px; }
 
     /* Tabela de itens compacta no mobile */
-    .items-table th { padding: 6px 8px; font-size: 9px; }
-    .items-table td { padding: 8px 8px; }
-    .item-name-cell { gap: 6px; }
-    .item-check { width: 15px; height: 15px; font-size: 9px; }
-    .item-name-text { font-size: 12px; }
-    .editable { font-size: 12px; padding: 2px 4px; }
-    .editable-price { width: 52px; font-size: 12px; }
-    .price-prefix { font-size: 11px; }
-    .badge { padding: 2px 6px; font-size: 10px; }
-    .select-status { font-size: 11px; }
-    .section-name { font-size: 13px; }
+    .items-table th { padding: 5px 5px; font-size: 9px; letter-spacing: 0; }
+    .items-table td { padding: 7px 5px; }
+    .item-name-cell { gap: 5px; }
+    .item-check { width: 15px; height: 15px; font-size: 9px; flex-shrink: 0; }
+    .item-name-text { font-size: 11.5px; }
+    .editable { font-size: 11.5px; padding: 1px 3px; }
+    .editable-price { width: 48px; font-size: 11px; }
+    .price-prefix { font-size: 10px; }
+    .price-wrap { gap: 1px; }
+    .badge { padding: 2px 5px; font-size: 10px; }
+    .select-status { font-size: 10.5px; padding: 2px 2px; max-width: 90px; }
+    .section-name { font-size: 12.5px; }
     .section-head { padding: 8px 10px; }
+    .col-name { width: 40%; }
+    .col-status { width: auto; }
+    .col-valor { width: auto; }
 
     /* Bottom nav */
     .bottom-nav {
@@ -792,6 +839,18 @@
           <div class="chart-sub">Itens ainda não comprados</div>
           <div class="chart-wrap"><canvas id="chartPrio"></canvas></div>
         </div>
+      </div>
+
+      <!-- ANOTAÇÕES GERAIS -->
+      <div class="notes-card">
+        <div class="notes-header">
+          <div>
+            <div class="chart-title">📝 Anotações gerais</div>
+            <div class="chart-sub">Lembretes, links, ideias para o enxoval</div>
+          </div>
+          <span class="notes-saved" id="notes-saved"></span>
+        </div>
+        <textarea class="notes-textarea" id="notes-textarea" placeholder="Escreva aqui suas anotações, links de lojas, lembretes, ideias…" oninput="saveNotes(this.value)"></textarea>
       </div>
     </div>
 
@@ -1518,9 +1577,29 @@ function exportCSV() {
   showToast('CSV exportado!');
 }
 
+// ============ NOTAS ============
+function saveNotes(val) {
+  try { localStorage.setItem('enxoval-notes', val); } catch(e) {}
+  const el = document.getElementById('notes-saved');
+  if (el) {
+    el.textContent = '✓ Salvo';
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.classList.remove('show'), 1800);
+  }
+}
+function loadNotes() {
+  try {
+    const val = localStorage.getItem('enxoval-notes') || '';
+    const ta = document.getElementById('notes-textarea');
+    if (ta) ta.value = val;
+  } catch(e) {}
+}
+
 // INIT
 updateBadges();
 renderDashboard();
+loadNotes();
 </script>
 </body>
 </html>
