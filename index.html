@@ -934,7 +934,7 @@
 
 <header>
   <div class="header-logo">
-    🏡❤️ Enxoval Lizandra & Rafael <span>2026</span>
+    🏡 Nossa Casa <span>enxoval Lizandra & Rafael</span>
   </div>
   <div class="header-actions">
     <button class="btn-header" onclick="exportCSV()">Exportar CSV</button>
@@ -1310,7 +1310,7 @@ const DEFAULT_ITEMS = [
   {id:'i70',room:'banheiro',section:'bconforto',name:'Difusor de aroma',prio:'opcional',status:'pendente',est:60,paid:0,obs:''},
 ];
 
-let items = JSON.parse(localStorage.getItem('enxoval_items') || 'null') || DEFAULT_ITEMS.map(i => ({...i}));
+let items = []; // será preenchido pelo Firebase na inicialização
 let openSections = {};
 let editingId = null;
 let currentFilter = 'todos';
@@ -1318,7 +1318,8 @@ let searchQ = '';
 let chartInstances = {};
 
 function save() {
-  localStorage.setItem('enxoval_items', JSON.stringify(items));
+  localStorage.setItem('enxoval_items', JSON.stringify(items)); // fallback offline
+  if (window._fbSave) window._fbSave(items);
 }
 
 function uid() { return 'i' + Date.now() + Math.random().toString(36).slice(2,6); }
@@ -2038,6 +2039,60 @@ renderDashboard();
 loadNotes();
 loadMedidasData();
 renderMedidas();
+</script>
+
+<!-- Firebase: sincronização entre dispositivos -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDvsSSoOnvP6Qg44qK3rP6NWMEHq_yieq8",
+    authDomain: "meu-enxoval-casa-nova-44d51.firebaseapp.com",
+    projectId: "meu-enxoval-casa-nova-44d51",
+    storageBucket: "meu-enxoval-casa-nova-44d51.firebasestorage.app",
+    messagingSenderId: "541991364007",
+    appId: "1:541991364007:web:7f381556114ee0cff08282"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const DOC_REF = doc(db, "enxoval", "principal");
+
+  // Expõe função de salvar para o código principal
+  window._fbSave = async function(data) {
+    try {
+      await setDoc(DOC_REF, { items: JSON.stringify(data) });
+    } catch(e) {
+      console.warn("Firebase offline, dados salvos localmente.", e);
+    }
+  };
+
+  // Carrega dados do Firebase e re-renderiza
+  async function init() {
+    try {
+      const snap = await getDoc(DOC_REF);
+      if (snap.exists()) {
+        window.items = JSON.parse(snap.data().items);
+      } else {
+        // Primeira vez: sobe os dados padrão (ou os que estão no localStorage)
+        const local = localStorage.getItem('enxoval_items');
+        window.items = local ? JSON.parse(local) : DEFAULT_ITEMS.map(i => ({...i}));
+        await setDoc(DOC_REF, { items: JSON.stringify(window.items) });
+      }
+    } catch(e) {
+      console.warn("Sem conexão, usando dados locais.", e);
+      const local = localStorage.getItem('enxoval_items');
+      window.items = local ? JSON.parse(local) : DEFAULT_ITEMS.map(i => ({...i}));
+    }
+
+    // Re-renderiza tudo com os dados carregados
+    updateBadges();
+    renderDashboard();
+    renderRoom('cozinha');
+  }
+
+  init();
 </script>
 </body>
 </html>
