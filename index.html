@@ -1311,15 +1311,51 @@ const DEFAULT_ITEMS = [
   {id:'i70',room:'banheiro',section:'bconforto',name:'Difusor de aroma',prio:'opcional',status:'pendente',est:60,paid:0,obs:''},
 ];
 
-let items = JSON.parse(localStorage.getItem('enxoval_items') || 'null') || DEFAULT_ITEMS.map(i => ({...i}));
+let items = DEFAULT_ITEMS.map(i => ({...i}));
 let openSections = {};
 let editingId = null;
 let currentFilter = 'todos';
 let searchQ = '';
 let chartInstances = {};
+let _db = null;
+let _setDoc, _doc, _getDoc;
 
-function save() {
+async function save() {
+  if (_db) {
+    try {
+      await _setDoc(_doc(_db, 'enxoval', 'items'), { data: JSON.stringify(items) });
+      return;
+    } catch(e) { console.error('Firebase save error:', e); }
+  }
   localStorage.setItem('enxoval_items', JSON.stringify(items));
+}
+
+async function loadFromFirebase() {
+  try {
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js");
+    const { getFirestore, doc, getDoc, setDoc } = await import("https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js");
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZBIlDzTAgEdt8C1A5D5EI5rxRgaaspY4",
+      authDomain: "meu-enxoval-casa-nova-6406f.firebaseapp.com",
+      projectId: "meu-enxoval-casa-nova-6406f",
+      storageBucket: "meu-enxoval-casa-nova-6406f.firebasestorage.app",
+      messagingSenderId: "293791260801",
+      appId: "1:293791260801:web:142ce53021058360312d80"
+    };
+    const firebaseApp = initializeApp(firebaseConfig);
+    _db = getFirestore(firebaseApp);
+    _setDoc = setDoc; _doc = doc; _getDoc = getDoc;
+    const snap = await getDoc(doc(_db, 'enxoval', 'items'));
+    if (snap.exists()) {
+      items = JSON.parse(snap.data().data);
+    }
+  } catch(e) {
+    console.error('Firebase load error, usando localStorage:', e);
+    const local = localStorage.getItem('enxoval_items');
+    if (local) items = JSON.parse(local);
+  }
+  updateBadges();
+  renderDashboard();
 }
 
 function uid() { return 'i' + Date.now() + Math.random().toString(36).slice(2,6); }
@@ -1787,8 +1823,12 @@ function exportCSV() {
 }
 
 // ============ NOTAS ============
-function saveNotes(val) {
-  try { localStorage.setItem('enxoval-notes', val); } catch(e) {}
+async function saveNotes(val) {
+  if (_db) {
+    try { await _setDoc(_doc(_db, 'enxoval', 'notes'), { data: val }); } catch(e) {}
+  } else {
+    try { localStorage.setItem('enxoval-notes', val); } catch(e) {}
+  }
   const el = document.getElementById('notes-saved');
   if (el) {
     el.textContent = '✓ Salvo';
@@ -1797,12 +1837,18 @@ function saveNotes(val) {
     el._t = setTimeout(() => el.classList.remove('show'), 1800);
   }
 }
-function loadNotes() {
-  try {
-    const val = localStorage.getItem('enxoval-notes') || '';
-    const ta = document.getElementById('notes-textarea');
-    if (ta) ta.value = val;
-  } catch(e) {}
+async function loadNotes() {
+  let val = '';
+  if (_db) {
+    try {
+      const snap = await _getDoc(_doc(_db, 'enxoval', 'notes'));
+      if (snap.exists()) val = snap.data().data || '';
+    } catch(e) {}
+  } else {
+    try { val = localStorage.getItem('enxoval-notes') || ''; } catch(e) {}
+  }
+  const ta = document.getElementById('notes-textarea');
+  if (ta) ta.value = val;
 }
 
 
@@ -1891,6 +1937,9 @@ function loadMedidasData() {
 
 function saveMedidasData() {
   try { localStorage.setItem('enxoval_medidas', JSON.stringify(medidasData)); } catch(e) {}
+  if (_db) {
+    _setDoc(_doc(_db, 'enxoval', 'medidas'), { data: JSON.stringify(medidasData) }).catch(e => {});
+  }
 }
 
 function showMedidasSaved(ambId, secId) {
@@ -2036,9 +2085,11 @@ function showMedidasAmbiente(ambId, el) {
 // INIT
 updateBadges();
 renderDashboard();
-loadNotes();
 loadMedidasData();
 renderMedidas();
+loadFromFirebase().then(() => {
+  loadNotes();
+});
 </script>
 </body>
 </html>
